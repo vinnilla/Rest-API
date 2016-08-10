@@ -45,3 +45,8 @@ app.use(bodyParser());
 ### Set Postman up with collections and environments
 set environment key apiURL to appropriate value
 change routes to {{apiURL}}/desired_path
+
+### /todos/:id
+save req.params.id as variable
+loop through array of todos and find match between req.params.id and todo.id
+if match exists, output json, else send error

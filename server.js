@@ -32,6 +32,25 @@ app.get('/todos', function(req, res) {
 	res.json(todos);
 })
 
+app.get('/todos/:id', function(req, res) {
+	// res.send("Asking for todo with id " + req.params.id)
+	var todoId = parseInt(req.params.id);
+	var matchedTodo;
+	// find todo with matching id
+	todos.forEach(function(todo) {
+		if(todoId == todo.id) {
+			matchedTodo = todo;
+		}
+	})
+		if (matchedTodo) {
+			res.json(matchedTodo);
+		}
+		else {
+			res.send(404);
+			res.send(`Todo with id ${todoId} not found`);
+		}
+})
+
 app.get('/about', middleware.logger, function(req, res) {
 	res.send('<h1>About</h1>');
 })
