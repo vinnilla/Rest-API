@@ -100,3 +100,22 @@ app.post('/todos', function(req, res) {
 	res.json(todos);
 })
 ```
+
+### Refactor using lodash
+get todos/:id
+
+replace the foreach loop with the lodash find() method
+```javascript
+app.get('/todos/:id', function(req, res) {
+	var todoId = parseInt(req.params.id);
+	var matchedTodo = _.find(todos, {id: todoId});
+	if (matchedTodo) {
+		res.json(matchedTodo);
+	}
+	else {
+		res.send(404);
+		res.send(`Todo with id ${todoId} not found`);
+	}
+})
+```
+// post todos

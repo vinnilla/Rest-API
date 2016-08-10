@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var PORT = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
+var _ = require('lodash');
 
 // import custom middleware
 var middleware = require('./middleware');
@@ -33,22 +34,15 @@ app.get('/todos', function(req, res) {
 })
 
 app.get('/todos/:id', function(req, res) {
-	// res.send("Asking for todo with id " + req.params.id)
 	var todoId = parseInt(req.params.id);
-	var matchedTodo;
-	// find todo with matching id
-	todos.forEach(function(todo) {
-		if(todoId == todo.id) {
-			matchedTodo = todo;
-		}
-	})
-		if (matchedTodo) {
-			res.json(matchedTodo);
-		}
-		else {
-			res.send(404);
-			res.send(`Todo with id ${todoId} not found`);
-		}
+	var matchedTodo = _.find(todos, {id: todoId});
+	if (matchedTodo) {
+		res.json(matchedTodo);
+	}
+	else {
+		res.send(404);
+		res.send(`Todo with id ${todoId} not found`);
+	}
 })
 
 app.post('/todos', function(req, res) {
