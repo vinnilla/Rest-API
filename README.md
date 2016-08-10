@@ -1,5 +1,9 @@
 # Express To-Do API
 
+heroku link:
+https://limitless-woodland-75632.herokuapp.com
+
+
 ### Create node app
 npm init --yes;
 touch .gitignore;
@@ -30,3 +34,14 @@ modulizing code is important to keep the main server.js file clean and easy to r
 move custom middleware into that new file (export the variable so its usuable)
 ###### in server.js
 var middleware = require('./middleware');
+
+### install and require module
+npm i -S body-parser
+###### in server.js
+var bodyParser = require('body-parser')
+since this is middleware that we want to run globally:
+app.use(bodyParser());
+
+### Set Postman up with collections and environments
+set environment key apiURL to appropriate value
+change routes to {{apiURL}}/desired_path
