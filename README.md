@@ -24,4 +24,9 @@ app.use(middleware.functionName)
 ####specific:
 app.get('/', middleware.functionName, callback)
 
-### Path
+### modulizing code
+modulizing code is important to keep the main server.js file clean and easy to read
+###### touch middleware.js
+and move custome middleware into that new file (export the variable so its usuable)
+###### in server.js
+var middleware = require('./middleware');

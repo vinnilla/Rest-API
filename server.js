@@ -3,17 +3,8 @@ var app = express();
 var path = require('path');
 var PORT = 3000;
 
-// custom middleware
-var middleware = {
-	requireAuthentication: function(req, res, next) {
-		console.log('Request Auth Ran');
-		next();
-	},
-	logger: function(req, res, next) {
-		console.log(req.method + req.originalUrl + new Date().toString());
-		next();
-	}
-}
+// import custom middleware
+var middleware = require('./middleware');
 
 // use middleware you want for the whole app
 app.use(middleware.requireAuthentication);
