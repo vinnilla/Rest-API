@@ -138,3 +138,23 @@ app.post('/todos', function(req, res) {
 
 })
 ```
+
+### Delete
+delete todos/:id
+
+find todo with the correct id
+
+use lodash without() method to filter out that matched todo
+```javascript
+app.delete('/todos/:id', function(req, res) {
+	var todoId = parseInt(req.params.id);
+	var matchedTodo = _.find(todos, {id: todoId});
+	if (!matchedTodo) {
+		res.status(404).send(`Todo with id ${todoId} not found`);
+	}
+	else {
+		todos = _.without(todos, matchedTodo);
+		res.json(todos);
+	}
+})
+```

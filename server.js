@@ -36,12 +36,11 @@ app.get('/todos', function(req, res) {
 app.get('/todos/:id', function(req, res) {
 	var todoId = parseInt(req.params.id);
 	var matchedTodo = _.find(todos, {id: todoId});
-	if (matchedTodo) {
-		res.json(matchedTodo);
+	if (!matchedTodo) {
+		res.status(404).send(`Todo with id ${todoId} not found`);
 	}
 	else {
-		res.status(404).send(404);
-		res.send(`Todo with id ${todoId} not found`);
+		res.json(matchedTodo);
 	}
 })
 
@@ -56,6 +55,18 @@ app.post('/todos', function(req, res) {
 	body.id = todos[todos.length-1].id+1;
 	todos.push(body);
 	res.json(todos);
+})
+
+app.delete('/todos/:id', function(req, res) {
+	var todoId = parseInt(req.params.id);
+	var matchedTodo = _.find(todos, {id: todoId});
+	if (!matchedTodo) {
+		res.status(404).send(`Todo with id ${todoId} not found`);
+	}
+	else {
+		todos = _.without(todos, matchedTodo);
+		res.json(todos);
+	}
 })
 
 app.get('/about', middleware.logger, function(req, res) {
