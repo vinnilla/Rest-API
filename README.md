@@ -6,7 +6,9 @@ https://limitless-woodland-75632.herokuapp.com
 
 ### Create node app
 npm init --yes;
+
 touch .gitignore;
+
 touch server.js;
 ###### in package.json
 change to main: server.js
@@ -21,7 +23,9 @@ var app = express();
 
 ### Custom middleware
 middleware is responsible for running functions before specific route functions are ran
+
 useful for authentication and body parsing
+
 middleware can be used globally before every route function or specifically for certain routes
 ###### in server.js
 ```javascript
@@ -52,11 +56,14 @@ app.use(bodyParser());
 
 ### Set Postman up with collections and environments
 set environment key apiURL to appropriate value
+
 change routes to {{apiURL}}/desired_path
 
-### /todos/:id
+### GET todos/:id
 save req.params.id as variable
+
 loop through array of todos and find match between req.params.id and todo.id
+
 if match exists, output json, else send error
 ```javascript
 app.get('/todos/:id', function(req, res) {
@@ -75,5 +82,21 @@ app.get('/todos/:id', function(req, res) {
 		else {
 			res.send(404);
 		}
+})
+```
+
+### POST todos
+save req.body
+
+increment id relative to ids already existing in the array of todos
+
+push new todo into array
+```javascript
+app.post('/todos', function(req, res) {
+	var body = req.body;
+	// add id field
+	body.id = todos[todos.length-1].id+1;
+	todos.push(body);
+	res.json(todos);
 })
 ```
