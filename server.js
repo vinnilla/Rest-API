@@ -69,6 +69,30 @@ app.delete('/todos/:id', function(req, res) {
 	}
 })
 
+app.patch('/todos/:id', function(req, res) {
+	var todoId = parseInt(req.params.id);
+	var matchedTodo = _.find(todos, {id: todoId});
+	var body = _.pick(req.body, ['description', 'completed']);
+	var validAttributes = {};
+	if (!matchedTodo) {
+		return res.status(404).send(`Todo with id ${todoId} not found`);
+	}
+	if (body.hasOwnProperty('completed') && _.isBoolean(body.completed)) {
+		validAttributes.completed = body.completed;
+	}
+	else {
+		return res.status(400).send(`completed must be defined and be a boolean`);
+	}
+	if (body.hasOwnProperty('description') && _.isString(body.description) && body.description.trim().length != 0) {
+		validAttributes.description = body.description.trim();
+	}
+	else {
+		return res.status(400).send(`description must be defined and be a string containing more than whitespace`);
+	}
+	matchedTodo = _.extend(matchedTodo, validAttributes);
+	res.json(matchedTodo);
+})
+
 app.get('/about', middleware.logger, function(req, res) {
 	res.send('<h1>About</h1>');
 })
