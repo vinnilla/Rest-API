@@ -40,13 +40,18 @@ app.get('/todos/:id', function(req, res) {
 		res.json(matchedTodo);
 	}
 	else {
-		res.send(404);
+		res.status(404).send(404);
 		res.send(`Todo with id ${todoId} not found`);
 	}
 })
 
 app.post('/todos', function(req, res) {
-	var body = req.body;
+	var body = _.pick(req.body, ['description', 'completed']);
+	// validate data types
+	if (!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
+		return res.status(400).send(400);
+	}	
+	body.description = body.description.trim();
 	// add id field
 	body.id = todos[todos.length-1].id+1;
 	todos.push(body);

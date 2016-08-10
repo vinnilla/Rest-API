@@ -118,4 +118,23 @@ app.get('/todos/:id', function(req, res) {
 	}
 })
 ```
-// post todos
+post todos
+
+use lodash pick() method to filter req.body
+
+validate data types of the filtered body
+```javascript
+app.post('/todos', function(req, res) {
+	var body = _.pick(req.body, ['description', 'completed']);
+	// validate data types
+	if (!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
+		return res.status(400).send(400);
+	}	
+	body.description = body.description.trim();
+	// add id field
+	body.id = todos[todos.length-1].id+1;
+	todos.push(body);
+	res.json(todos);
+
+})
+```
